@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story.exe | 9 Months</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="sky-background">
+        <div class="stars"></div>
+        <div class="twinkle"></div>
+        <div class="city-skyline"></div>
+        <div class="floating-hearts"></div>
+    </div>
+
+  <!-- ESTA ES TU PANTALLA DE INICIO -->
+<section id="intro-screen">
+    <div class="intro-content">
+        <!-- El corazón que late -->
+        <div class="pixel-heart">❤</div>
+        
+        <!-- El título con glitch -->
+        <h1 class="glitch-text">OUR LOVE STORY</h1>
+        
+        
+
+        <!-- AQUÍ ESTÁ EL FAMOSO BOTÓN -->
+        <div class="start-wrapper">
+            <button id="start-btn" class="rpg-button-main">PRESS START ♡</button>
+        </div>
+
+        <p class="insert-coin">INSERT LOVE TO CONTINUE</p>
+    </div>
+</section>
+
+</section>
+    <main id="main-ui" style="display: none;">
+        <header class="top-bar">
+            <div class="logo-area">OUR LOVE STORY</div>
+           
+        </header>
+
+        <div class="game-container">
+            <nav class="side-menu">
+                <div class="menu-label">MENU</div>
+                <button class="nav-btn active" data-target="char-db">PERSONAJES</button>
+                <button class="nav-btn" data-target="achievements">LOGROS</button>
+                <button class="nav-btn" data-target="gallery">GALLERY</button>
+                <button class="nav-btn" data-target="memo">NOTAS</button>
+                <button class="nav-btn" data-target="music">MUSICA</button>
+                <!-- Busca el menú lateral y agrega esta línea -->
+<button class="nav-btn" data-target="letters">CARTAS</button>
+                <button class="nav-btn secret" data-target="secret-ending">MINIJUEGO</button>
+                
+            </nav>
+
+            <section class="content-window">
+                <div class="window-header">
+                    <h2 id="window-title"></h2>
+                </div>
+                <div id="content-display" class="scroll-area"></div>
+                <div class="window-footer">
+                  
+                        <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
+                    </div>
+                    
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- UN SOLO MODAL BIEN HECHO -->
+    <div id="char-modal" class="modal">
+        <div class="modal-content glass">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="musica/pokemon.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

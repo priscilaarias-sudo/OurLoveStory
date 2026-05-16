@@ -1,0 +1,365 @@
+/* VARIABLES DE DISEÑO (Basadas en imagen_cbf226.jpg) */
+:root {
+    --bg-dark: #1a1b3a;
+    --panel-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --pink-main: #ff85a2;
+    --pink-hover: #ffacc1;
+    --blue-glow: #a0c4ff;
+    --text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    --font-main: 'Nunito', sans-serif;
+    --font-titles: 'Fredoka One', cursive;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-main);
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    background: var(--bg-dark);
+}
+
+/* --- FONDO ANIMADO --- */
+.sky-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    z-index: -1;
+}
+
+.city-skyline {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    background: url('https://i.imgur.com/GzBvY7p.png') repeat-x; /* Placeholder ciudad pixel */
+    opacity: 0.4;
+}
+
+/* --- INTRO SCREEN --- */
+#intro-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    transition: opacity 1s ease;
+}
+
+#intro-screen.hidden { opacity: 0; pointer-events: none; }
+
+.rpg-button-main {
+    padding: 20px 40px;
+    font-size: 24px;
+    font-family: var(--font-titles);
+    background: var(--pink-main);
+    border: 4px solid white;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 20px var(--pink-main);
+    animation: pulse 2s infinite;
+}
+
+/* --- UI PRINCIPAL --- */
+#main-ui {
+    display: none; /* Se activa con JS */
+    padding: 20px;
+    height: 100vh;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    height: 85vh;
+}
+
+/* Estilo Glassmorphism */
+.side-menu, .content-window, .modal-content {
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* BOTONES MENÚ LATERAL */
+.nav-btn {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 12px;
+    background: linear-gradient(180deg, #ff9eb5, #ff7191);
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    font-family: var(--font-titles);
+    text-shadow: var(--text-shadow);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nav-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--pink-main);
+}
+
+/* TARJETAS DE PERSONAJE (Copiando exactamente la imagen) */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 10px;
+}
+
+.char-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.char-card:hover {
+    transform: translateY(-5px) rotate(1deg);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.char-avatar {
+    width: 100px;
+    height: 120px;
+    background: #ddd;
+    border-radius: 10px;
+    float: left;
+    margin-right: 15px;
+    border: 3px solid white;
+    object-fit: cover;
+}
+
+.stat-bar {
+    height: 10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 5px;
+    margin: 5px 0;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+/* --- SISTEMA DE VENTANAS EMERGENTES (MODALS) --- */
+.modal {
+    display: none; /* Empieza oculto */
+    position: fixed;
+    z-index: 2000; /* Prioridad máxima para que nada lo tape */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque aesthetic */
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255, 133, 162, 0.4);
+    animation: modalSlideIn 0.4s ease-out;
+}
+
+/* Animación de entrada para que parezca un juego real */
+@keyframes modalSlideIn {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    color: #ff85a2;
+    transform: scale(1.2);
+}
+
+/* --- SCROLLBAR AESTHETIC --- */
+/* Para que el scroll de los personajes se vea lindo */
+.character-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.character-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.character-grid::-webkit-scrollbar-thumb {
+    background: #ff85a2;
+    border-radius: 10px;
+}
+
+/* ANIMACIONES */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 10px var(--pink-main); }
+    50% { transform: scale(1.05); box-shadow: 0 0 25px var(--pink-main); }
+    100% { transform: scale(1); box-shadow: 0 0 10px var(--pink-main); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* Personalización del Scrollbar para la sección de notas */
+.memo-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.memo-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.memo-container::-webkit-scrollbar-thumb {
+    background: #ff85a2; /* El color rosa de tus botones */
+    border-radius: 10px;
+}
+
+.memo-container::-webkit-scrollbar-thumb:hover {
+    background: #ffacc1;
+}
+
+.memo-container {
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+#heart-boss:active {
+    transform: scale(0.7) !important;
+}
+
+#typewriter-final {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: #fff;
+}
+
+/* Pantalla de Inicio */
+#intro-screen {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #2d1b4e 0%, #1a1b3a 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Corazón flotante gigante */
+.pixel-heart {
+    font-size: 80px;
+    color: #ff4d4d;
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px #ff4d4d);
+    margin-bottom: 20px;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+}
+
+/* Texto con efecto Glitch mejorado */
+.glitch-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4em;
+    color: #fff;
+    text-shadow: 3px 3px #ff85a2, -3px -3px #84fab0;
+    margin-bottom: 10px;
+    letter-spacing: 5px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Botón que invita a ser clickeado */
+.rpg-button-main {
+    background: #ff85a2;
+    color: white;
+    border: 4px solid #fff;
+    padding: 15px 40px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 133, 162, 0.6);
+    transition: all 0.2s;
+    animation: blink 1s infinite; /* El clásico parpadeo de Press Start */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.rpg-button-main:hover {
+    background: #84fab0;
+    color: #1a1b3a;
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0 0 30px #84fab0;
+    animation: none;
+}
+
+/* Texto inferior tipo Arcade */
+.insert-coin {
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 2px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.intro-content {
+    position: relative;
+    z-index: 10; /* Esto lo pone por encima de cualquier fondo animado */
+}
